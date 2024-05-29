@@ -10,6 +10,7 @@ plugins {
     // Apply the java-library plugin for API and implementation separation.
     id 'java-library'
     id 'eclipse'
+    id 'maven-publish'
 }
 
 repositories {
@@ -24,7 +25,8 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.1'
     testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.10.2'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.10.2'   
-    implementation 'org.apache.logging.log4j:log4j-core:2.23.1'      
+    implementation 'org.apache.logging.log4j:log4j-core:2.23.1'  
+    implementation 'org.apache.poi:poi-ooxml:5.2.3'    
  }
 
 // Apply a specific Java toolchain to ease working on different environments.
@@ -37,4 +39,29 @@ java {
 tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+
+            // Configure the coordinates of the published artifact
+            groupId = 'us.dit.fs.marlopgar40'
+            artifactId = 'gestor-documental'
+            version = '1.0-SNAPSHOT'
+
+        }
+    }
+
+    repositories {
+        maven {
+            name = 'GitHubPackages'
+            url = uri("https://maven.pkg.github.com/marlopgar40/gestordocumental")
+            credentials {
+                username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_LOGIN")
+                password = project.findProperty("gpr.token") ?: System.getenv("GITHUB_PACKAGES")
+            }
+        }
+    }
 }

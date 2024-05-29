@@ -50,6 +50,19 @@ class TestPlantillaWord {
 	        assertEquals(wordDocument.convertTextFileToString("parrafo.txt"), paragraphs.get(2).getText());
 	       
 	    }
+	    
+	    @Test
+	    public void tituloTimesNewRomanTest() throws Exception {
+	        Path msWordPath = Paths.get("Quijote.docx");
+	        logger.info("path ",msWordPath);
+	        XWPFDocument document = new XWPFDocument(Files.newInputStream(msWordPath));
+	        List<XWPFParagraph> paragraphs = document.getParagraphs();
+	        document.close();
+	        List<XWPFRun> run = paragraphs.get(0).getRuns();
+	        XWPFRun run3 = run.get(0);
+	        assertEquals("Courier", run3.getFontFamily());	        
+	       
+	    }
 	}
 
 
