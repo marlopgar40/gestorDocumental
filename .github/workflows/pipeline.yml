@@ -3,7 +3,7 @@ name: build_test_publish
 on:
   push:
     branches:
-      - marlopgar40
+      - main
 
 jobs:
   build:
